@@ -26,10 +26,7 @@ class FileStorage:
     def all(self, cls=None):
         '''
             Return the dictionary
-        'test commit
-Ambesawi
-Ambesawi
-file_storage.py''
+	'''
         fs_objects = {}
         if cls:
             if type(cls) is str and cls in classes:

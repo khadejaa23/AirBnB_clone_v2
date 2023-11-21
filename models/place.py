@@ -8,6 +8,18 @@ from sqlalchemy.orm import relationship
 from os import getenv
 
 
+if getenv("HBNB_TYPE_STORAGE") == "db":
+    place_amenity = Table("place_amenity", Base.metadata,
+                        Column("place_id", String(60),
+                                ForeignKey("places.id"),
+                                primary_key=True,
+                                nullable=False),
+                        Column("amenity_id", String(60),
+                                ForeignKey("amenities.id"),
+                                primary_key=True,
+                                nullable=False))
+    
+
 class Place(BaseModel, Base):
     '''
     This class defines a place by various attributes
@@ -27,6 +39,9 @@ class Place(BaseModel, Base):
         longitude = Column(Float, nullable=True)
         reviews = relationship("Review", cascade="all, delete, delete-orphan",
                                backref="places")
+        amenities = relationship("Amenity", secondary='place_amenity',
+                                 viewonly=False,
+                                 backref="place_amenities")
     else:
         city_id = ""
         user_id = ""
@@ -38,6 +53,7 @@ class Place(BaseModel, Base):
         price_by_night = 0
         latitude = 0.0
         longitude = 0.0
+        amenity_ids = []
 
         def __init__(self, *args, **kwargs):
             """initializes place"""
@@ -47,6 +63,17 @@ class Place(BaseModel, Base):
         def reviews(self):
             """ Returns to list of reviews.id """
             val = models.storage.all("Review").values()
+            list = []
+            for obj in val:
+                if obj.place_id == self.id:
+                    list.append(obj)
+            return list
+
+    if getenv("HBNB_TYPE_STORAGE") == "db":
+        @property
+        def amenities(self):
+            """ Returns to list of amenity.id """
+            val = models.storage.all("Amenity").values()
             list = []
             for obj in val:
                 if obj.place_id == self.id:

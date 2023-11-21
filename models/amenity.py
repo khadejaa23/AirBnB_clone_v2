@@ -22,3 +22,7 @@ class Amenity(BaseModel, Base):
                                        backref="amenities")
     else:
         name = ""
+
+    def __init__(self, *args, **kwargs):
+        """initializes amenity"""
+        super().__init__(*args, **kwargs)

@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """ unit test for User class """
 import os
+import pep8
 import unittest
 from tests.test_models.test_base_model import test_basemodel
 from models.user import User
@@ -42,3 +43,9 @@ class test_User(test_basemodel):
         self.assertEqual(type(new.password), str if os.getenv(
             "HBNB_TYPE_STORAGE") != "db" else None
         )
+
+    def test_pep8_User(self):
+        """Tests pep8 style"""
+        style = pep8.StyleGuide(quiet=True)
+        p = style.check_files(['models/user.py'])
+        self.assertEqual(p.total_errors, 0, "fix pep8")

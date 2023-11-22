@@ -12,13 +12,14 @@ if getenv("HBNB_TYPE_STORAGE") == "db":
 else:
     Base = object
 
+
 class BaseModel:
     """A base class for all hbnb models"""
-    
+
     id = Column(String(60),nullable=False, primary_key=True)
     created_at = Column(DateTime, nullable=False, default=datetime.utcnow())
     updated_at = Column(DateTime, nullable=False, default=datetime.utcnow())
-	
+
     def __init__(self, *args, **kwargs):
         """Instatntiates a new model"""
         if not kwargs:
@@ -34,7 +35,7 @@ class BaseModel:
 							)
             else:
                 self.updated_at = datetime.now()
-                
+
                 if 'created_at' in kwargs:
                     kwargs['created_at'] = datetime.strptime(kwargs['created_at'],
                                                          '%Y-%m-%dT%H:%M:%S.%f'
@@ -54,7 +55,7 @@ class BaseModel:
         """return a string
         """
         return self.__str__()
-    
+
     def save(self):
         """Updates updated_at with current time when instance is changed"""
         from models import storage
@@ -86,7 +87,9 @@ class BaseModel:
         storage.delete(self)
 
 # update this file with the following changes:
-# Set "Base = declarative_base()" when the environment variable HBNB_TYPE_STORAGE = db
+# Set "Base = declarative_base()" when the environment
+#   variable HBNB_TYPE_STORAGE = db
 # added __repr__ method to BaseModel
-# ensure that self.updated_at and self.created_at are datetime objects and not strings 
-# (you can use isoformat() to print the datetime objects in string format)
+# ensure that self.updated_at and self.created_at are datetime objects
+#   and not strings(you can use isoformat()
+#   to print the datetime objects in string format)

@@ -25,8 +25,8 @@ class FileStorage:
 
     def all(self, cls=None):
         '''
-            Return the dictionary
-	'''
+            Return the dictionary     
+        '''
         fs_objects = {}
         if cls:
             if type(cls) is str and cls in classes:
